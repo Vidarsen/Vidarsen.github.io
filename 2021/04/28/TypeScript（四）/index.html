@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2021/4 | Vidar的个人博客</title>
+  <title>关于TypeScript（四） | Vidar的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Vidar的个人博客">
-<meta property="og:url" content="http://example.com/archives/2021/04/index.html">
+  <meta name="description" content="对象的类型——接口在ts中，我们使用（Interfaces）来定义对象的类型 什么是接口">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于TypeScript（四）">
+<meta property="og:url" content="http://example.com/2021/04/28/TypeScript%EF%BC%88%E5%9B%9B%EF%BC%89/index.html">
 <meta property="og:site_name" content="Vidar的个人博客">
+<meta property="og:description" content="对象的类型——接口在ts中，我们使用（Interfaces）来定义对象的类型 什么是接口">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-28T00:39:34.333Z">
+<meta property="article:modified_time" content="2021-04-28T00:43:51.146Z">
 <meta property="article:author" content="Vidar">
+<meta property="article:tag" content="前端那些事">
+<meta property="article:tag" content="TypeScript">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Vidar的个人博客" type="application/atom+xml">
@@ -148,36 +154,112 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-TypeScript（四）" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      关于TypeScript（四）
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/28/TypeScript%EF%BC%88%E5%9B%9B%EF%BC%89/" class="archive-article-date">
+
+        
+        <a href="/2021/04/28/TypeScript%EF%BC%88%E5%9B%9B%EF%BC%89/" class="archive-article-date">
   	<time datetime="2021-04-28T00:39:34.333Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-28</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/28/TypeScript%EF%BC%88%E5%9B%9B%EF%BC%89/">关于TypeScript（四）</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="对象的类型——接口"><a href="#对象的类型——接口" class="headerlink" title="对象的类型——接口"></a>对象的类型——接口</h2><p>在ts中，我们使用（Interfaces）来定义对象的类型</p>
+<h3 id="什么是接口"><a href="#什么是接口" class="headerlink" title="什么是接口"></a>什么是接口</h3><span id="more"></span>
+<p>在面向兑现的语言中，接口是一个非常灵活的概念，他是对行为的抽象，而具体如何行动需要由类（classes）去实现。<br>Ts 中的接口是一个十分灵活的概念，除了可用于对类的一部分进行抽象外，也常用于对[对象的形状（Shape）]j进行描述。</p>
+<h4 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义接口Person</span></span><br><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">       name: <span class="built_in">string</span>;</span><br><span class="line">       age: <span class="built_in">number</span>;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="comment">// 定义变量me，类型为Person</span></span><br><span class="line"><span class="keyword">let</span> me: Person = &#123;</span><br><span class="line">       name:<span class="string">&#x27;vidar&#x27;</span>,</span><br><span class="line">       age: <span class="number">25</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
+<p>在上面的模块中，我们定义了一个接口<code>Person</code>和一个<code>me</code>，它的类型为<code>person</code>，这样就约束了<code>tom</code>的形状必须和<code>Person</code>一致（属性数量，属性类型），接口名称一般大写</p>
+<h3 id="可选属性"><a href="#可选属性" class="headerlink" title="可选属性"></a>可选属性</h3><p>有时我们洗完不完全匹配时，可用可选属性</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义接口Person</span></span><br><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">       name: <span class="built_in">string</span>;</span><br><span class="line">       age?: <span class="built_in">number</span>; <span class="comment">// 定义可选属性</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> me: Person = &#123;</span><br><span class="line">       name:<span class="string">&#x27;vidar&#x27;</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="任意属性"><a href="#任意属性" class="headerlink" title="任意属性"></a>任意属性</h3><p>有时候我们希望一个接口允许有任意的属性</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">interface</span> Person &#123;</span><br><span class="line">       name: <span class="built_in">string</span>;</span><br><span class="line">       age?: <span class="built_in">number</span>;</span><br><span class="line">       [propName: <span class="built_in">string</span>]: <span class="built_in">any</span>; <span class="comment">// 定义的任意属性，取string的值</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">       name: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">       gender: <span class="string">&#x27;male&#x27;</span></span><br><span class="line">   &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意：一旦定义了任意属性，确定属性和可选属性的类型必须是任意属性的子集，否则编译报错</span></span><br></pre></td></tr></table></figure>
+
+<p>一个接口中只能定义一个任意属性，如果接口中有多类型的属性，可以在任意属性中使用联合类型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">       name: <span class="built_in">string</span>;</span><br><span class="line">       age: <span class="built_in">number</span>;</span><br><span class="line">       [propName: <span class="built_in">string</span>]: <span class="built_in">string</span> | <span class="built_in">number</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> me: Person = &#123;</span><br><span class="line">       name:<span class="string">&#x27;vidar&#x27;</span>,</span><br><span class="line">       age:;<span class="number">25</span>,</span><br><span class="line">       gender:<span class="string">&#x27;male&#x27;</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="只读属性"><a href="#只读属性" class="headerlink" title="只读属性"></a>只读属性</h3><p>只可在创建时赋值，不可二次赋值。可用<code>readonly</code>定义</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">       <span class="keyword">readonly</span> name: <span class="built_in">string</span>;</span><br><span class="line">       age:numbr;</span><br><span class="line">       gender: <span class="built_in">string</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> me: Person = &#123;</span><br><span class="line">       name:<span class="string">&#x27;vidar&#x27;</span>,</span><br><span class="line">       age:<span class="number">25</span>,</span><br><span class="line">       gender:<span class="string">&#x27;male&#x27;</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   me.name = <span class="string">&#x27;dafa&#x27;</span>;</span><br><span class="line"><span class="comment">// 报错，只读属性重复赋值</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数组的类型"><a href="#数组的类型" class="headerlink" title="数组的类型"></a>数组的类型</h2><p>在 Ts 中，数组类型有多种定义形式，比较灵活</p>
+<h3 id="类型-方括号-表示法"><a href="#类型-方括号-表示法" class="headerlink" title="[类型 + 方括号] 表示法"></a>[类型 + 方括号] 表示法</h3> <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> DemoArr: <span class="built_in">number</span>[] = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//数组中不允许出现其他类型</span></span><br><span class="line"><span class="keyword">let</span> DemoArr: <span class="built_in">number</span>[] = [<span class="number">1</span>,<span class="string">&#x27;2&#x27;</span>,<span class="number">3</span>,<span class="number">4</span>] <span class="comment">// 报错</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">//操作数组的相关方法</span></span><br><span class="line"><span class="keyword">let</span> DemoArr: <span class="built_in">number</span>[] = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>];</span><br><span class="line">DemoArr.push(<span class="string">&#x27;5&#x27;</span>) <span class="comment">// 报错须为number</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="用接口表示数组"><a href="#用接口表示数组" class="headerlink" title="用接口表示数组"></a>用接口表示数组</h3> <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 索引为number的，值也应该为number</span></span><br><span class="line"><span class="keyword">interface</span> demoArr &#123;</span><br><span class="line">       [index: <span class="built_in">number</span>]: <span class="built_in">number</span>;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="keyword">let</span> Arr: demoArr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line">   <span class="comment">// 常用此种方法表示类数组</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="类数组"><a href="#类数组" class="headerlink" title="类数组"></a>类数组</h3><p>类数组不是数组类型，比如<code>arguments</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">       <span class="keyword">let</span> ards: <span class="built_in">number</span>[] = <span class="built_in">arguments</span>;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="comment">// 上面中的arguments其实是类数组，不能用数组的方式来描述，而应该用接口</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">       <span class="keyword">let</span> args: &#123;</span><br><span class="line">           [index: <span class="built_in">number</span>]: <span class="built_in">number</span>;</span><br><span class="line">           length: <span class="built_in">number</span>;</span><br><span class="line">           callee: <span class="function"><span class="keyword">function</span></span>;</span><br><span class="line">       &#125; = <span class="built_in">arguments</span>;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="comment">// 除了约束当索引是数字值是数字，还约束有 length 和 callee 两个属性</span></span><br></pre></td></tr></table></figure>
+
+<p>常用的类数组都有自己的接口定义，如<code>IArguments</code>，<code>NodeList</code>，<code>HT MLCollection</code>等，详细后文介绍</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">       <span class="keyword">let</span> args: IArguments;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="comment">// IArguments 类型即为</span></span><br><span class="line">       <span class="keyword">interface</span> IArguments &#123;</span><br><span class="line">           [index: <span class="built_in">number</span>]: <span class="built_in">any</span>;</span><br><span class="line">           length: <span class="built_in">number</span>;</span><br><span class="line">           callee: <span class="built_in">Function</span>;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="any在数组中的应用"><a href="#any在数组中的应用" class="headerlink" title="any在数组中的应用"></a>any在数组中的应用</h3><p>用<code>any</code>表示数组中允许出现任意类型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Arr: <span class="built_in">any</span>[] = [<span class="string">&#x27;vidar&#x27;</span>,<span class="number">25</span>,&#123;<span class="attr">color</span>:<span class="string">&#x27;blue&#x27;</span>&#125;];</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数的声明"><a href="#函数的声明" class="headerlink" title="函数的声明"></a>函数的声明</h2><p>在 Js 中，有两种常见的定义函数的方式，函数声明和函数表达式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数声明</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Demo</span>(<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> x + y</span><br><span class="line">   &#125;</span><br><span class="line"><span class="comment">// 函数表达式</span></span><br><span class="line"><span class="keyword">let</span> Demo = <span class="function"><span class="keyword">function</span>(<span class="params">x，y</span>)</span>&#123;</span><br><span class="line">       <span class="keyword">return</span> x + y</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>一个函数有输出和输入，Ts 中对其进行约束，把输入和输出都考虑在其中</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数式(输入过多或过少的参数都是不被允许的)</span></span><br><span class="line">functtion Demo(x: <span class="built_in">number</span>,<span class="attr">y</span>: <span class="built_in">number</span>): <span class="built_in">number</span> &#123;</span><br><span class="line">       <span class="keyword">return</span> x + y</span><br><span class="line">   &#125;</span><br><span class="line"><span class="comment">// 函数表达式</span></span><br><span class="line"><span class="keyword">let</span> Demo: <span class="function">(<span class="params">x： <span class="built_in">number</span>,y: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">number</span> = fucntion(x: <span class="built_in">number</span>,<span class="attr">y</span>: <span class="built_in">number</span>): <span class="built_in">number</span> &#123;</span><br><span class="line">       <span class="keyword">return</span> x + y</span><br><span class="line">   &#125; <span class="comment">// 注意 =&gt; 并非是箭头函数，在 Ts 用个用来表示函数的定义，左面输入类型，右边输出类型</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="用接口定义函数的形状"><a href="#用接口定义函数的形状" class="headerlink" title="用接口定义函数的形状"></a>用接口定义函数的形状</h2><p>我们也可用接口的方式来定义一个函数需要符合的形状</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> DemoFunc &#123;</span><br><span class="line">       (source: <span class="built_in">string</span>,<span class="attr">subString</span>: <span class="built_in">string</span>)： <span class="built_in">boolean</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">let</span> myFunc: DemoFunc;</span><br><span class="line">myFunc = <span class="function"><span class="keyword">function</span>(<span class="params">source: <span class="built_in">string</span>,subString: <span class="built_in">string</span></span>) </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> source.search(subString) !== -<span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="comment">// 对等号左侧进行类型限制，可以保证以后对函数名称赋值时保证参数个数、类型、返回值不变</span></span><br><span class="line"><span class="comment">// 优化书写样式，使函数看着更简洁，便于维护和复用</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="可选参数"><a href="#可选参数" class="headerlink" title="可选参数"></a>可选参数</h3><p>可选参数类型写法类似可选数值类型的写法，不同的是<strong>可选参数须写在必须参数的后面</strong>，否则会报错</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> DemoFunc &#123;</span><br><span class="line">       (source: <span class="built_in">string</span>,<span class="attr">subString</span>: <span class="built_in">string</span>)： <span class="built_in">boolean</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">let</span> myFunc: DemoFunc;</span><br><span class="line">myFunc = <span class="function"><span class="keyword">function</span>(<span class="params">firstName?: <span class="built_in">string</span>, lastName: <span class="built_in">string</span></span>) </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (subString) &#123;</span><br><span class="line">       	<span class="keyword">return</span> xxx</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           <span class="keyword">return</span> xxx;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="keyword">let</span> tomcat = buildName(<span class="string">&#x27;Tom&#x27;</span>, <span class="string">&#x27;Cat&#x27;</span>);</span><br><span class="line"><span class="keyword">let</span> tom = buildName(<span class="literal">undefined</span>, <span class="string">&#x27;Tom&#x27;</span>);</span><br><span class="line"><span class="comment">//可判断是否有次参数</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="参数默认值"><a href="#参数默认值" class="headerlink" title="参数默认值"></a>参数默认值</h3><p>在 ES6 可为桉树添加参数默认值，Ts 会将添加了参数默认值的参数识别为可选参数</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">buildName</span>(<span class="params">firstname: <span class="built_in">string</span>, lastname: <span class="built_in">string</span> = <span class="string">&#x27;idar&#x27;</span></span>) </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> firstname + <span class="string">&#x27;&#x27;</span> + lastname</span><br><span class="line">   &#125;</span><br><span class="line"><span class="keyword">let</span> one = buildName(<span class="string">&#x27;v&#x27;</span>,<span class="string">&#x27;idar&#x27;</span>); <span class="comment">// vidar</span></span><br><span class="line"><span class="keyword">let</span> two = buildName(<span class="string">&#x27;v&#x27;</span>) <span class="comment">// vidar</span></span><br><span class="line">   <span class="comment">//注意：有参数默认值的函数不受可选参数必须在必须参数后面的约束</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="剩余参数"><a href="#剩余参数" class="headerlink" title="剩余参数"></a>剩余参数</h3><p>ES6 中，可以使用 <code>...rest</code> 的方式获取函数中的剩余参数（rest 参数）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">push</span>(<span class="params">array,...items</span>) </span>&#123;</span><br><span class="line">       items.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</span><br><span class="line">           array.push(item)</span><br><span class="line">       &#125;)</span><br><span class="line">   &#125;</span><br><span class="line"><span class="keyword">let</span> a: any[] = [];</span><br><span class="line">push(a,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+
+<p><code>items</code>为数组，所以我们可以用数组的类型来定义它</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">push</span>(<span class="params">array: <span class="built_in">any</span>[],...items: <span class="built_in">any</span>[]</span>) </span>&#123;</span><br><span class="line">       items.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</span><br><span class="line">       	array.push(item)</span><br><span class="line">       &#125;)</span><br><span class="line">   &#125;</span><br><span class="line"><span class="keyword">let</span> a = [];</span><br><span class="line">push(a,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//注意：rest 参数只能是最后一个参数</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="重载"><a href="#重载" class="headerlink" title="重载"></a>重载</h3><p>重载允许一个函数接受不同数量或类型的参数时，做出不同的处理</p>
+<p>例：reverse 函数，翻转数字和字符串(123,’hello’)</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// one</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reverse</span>(<span class="params">x：<span class="built_in">number</span> | <span class="built_in">string</span></span>): <span class="title">number</span> | <span class="title">string</span></span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(<span class="keyword">typeof</span> x === <span class="string">&#x27;number&#x27;</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span> 							     			     			x.toString().split(<span class="string">&#x27;&#x27;</span>).reverse().join(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">       &#125; ele <span class="keyword">if</span>(<span class="keyword">typeof</span> x === <span class="string">&#x27;string&#x27;</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span> x.split(<span class="string">&#x27;&#x27;</span>).reverse().jion(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125; <span class="comment">// 有缺点 表达不够精准 输入输出不够同步</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// two 用重载定义多个`reverse`类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reverse</span>(<span class="params">x: <span class="built_in">number</span></span>): <span class="title">number</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reverse</span>(<span class="params">x: <span class="built_in">string</span></span>): <span class="title">string</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reverse</span>(<span class="params">x: <span class="built_in">number</span> | <span class="built_in">string</span></span>): <span class="title">number</span> | <span class="title">string</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (<span class="keyword">typeof</span> x === <span class="string">&#x27;number&#x27;</span>) &#123;</span><br><span class="line">       	<span class="keyword">return</span> <span class="built_in">Number</span>(x.toString().split(<span class="string">&#x27;&#x27;</span>).reverse().join(<span class="string">&#x27;&#x27;</span>));</span><br><span class="line">       &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> x === <span class="string">&#x27;string&#x27;</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span> x.split(<span class="string">&#x27;&#x27;</span>).reverse().join(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;;</span><br><span class="line"><span class="comment">// 重复定义多次函数`reverse`，前几次函数定义 最后一次函数实现,在编辑器的代码提示中，可以正确的看到前两个提示。</span></span><br><span class="line"><span class="comment">// 注意，TypeScript 会优先从最前面的函数定义开始匹配，所以多个函数定义如果有包含关系，需要优先把精确的定义写在前面</span></span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你的赞~可惜我收不到-_-!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -193,385 +275,106 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/04/28/TypeScript%EF%BC%88%E5%9B%9B%EF%BC%89/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/27/TypeScript%EF%BC%88%E4%B8%89%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2021-04-27T00:45:08.384Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-27</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/27/TypeScript%EF%BC%88%E4%B8%89%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">关于TypeScript（三）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/27/TypeScript%EF%BC%88%E4%B8%89%EF%BC%89/">关于TypeScript（三）</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">TypeScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/26/TypeScript%EF%BC%88%E4%BA%8C%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2021-04-26T01:24:20.117Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/26/TypeScript%EF%BC%88%E4%BA%8C%EF%BC%89/">关于TypeScript（二）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">TypeScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/26/2021-4-25/" class="archive-article-date">
-  	<time datetime="2021-04-26T01:23:23.863Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/26/2021-4-25/">关于TypeScript（一）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">TypeScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/24/2021-4-24/" class="archive-article-date">
-  	<time datetime="2021-04-24T06:58:48.200Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/24/2021-4-24/">关于webpack(一)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/23/2021-4-23/" class="archive-article-date">
-  	<time datetime="2021-04-23T01:35:09.415Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/23/2021-4-23/">前端发展简史（二）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/22/2021-4-22/" class="archive-article-date">
-  	<time datetime="2021-04-22T09:13:11.449Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/22/2021-4-22/">前端发展简史（一）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/21/2021-4-21/" class="archive-article-date">
-  	<time datetime="2021-04-21T02:57:57.268Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/21/2021-4-21/">神奇的梅花易数初窥（二）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">玄学</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">梅花易数</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/20/2021-4-20/" class="archive-article-date">
-  	<time datetime="2021-04-20T02:36:28.366Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/20/2021-4-20/">神奇的梅花易数初窥（一）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">玄学</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">梅花易数</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/20/2021-4-18/" class="archive-article-date">
-  	<time datetime="2021-04-20T00:56:05.694Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/20/2021-4-18/">加班闲暇随笔</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">生活小记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -594,8 +397,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
