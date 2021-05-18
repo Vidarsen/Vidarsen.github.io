@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Vidar的个人博客</title>
+  <title>关于TypeScript（终） | Vidar的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Vidar的个人博客">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="最近真的是太忙了，工作盘核桃钓鱼不亦乐乎~~~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于TypeScript（终）">
+<meta property="og:url" content="http://example.com/2021/05/18/TypeScript%EF%BC%88%E5%85%AB%EF%BC%89/index.html">
 <meta property="og:site_name" content="Vidar的个人博客">
+<meta property="og:description" content="最近真的是太忙了，工作盘核桃钓鱼不亦乐乎~~~">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-05-18T01:53:58.297Z">
+<meta property="article:modified_time" content="2021-05-18T01:55:13.805Z">
 <meta property="article:author" content="Vidar">
+<meta property="article:tag" content="前端那些事">
+<meta property="article:tag" content="TypeScript">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Vidar的个人博客" type="application/atom+xml">
@@ -148,16 +154,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-TypeScript（八）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-TypeScript（八）" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/18/TypeScript%EF%BC%88%E5%85%AB%EF%BC%89/">关于TypeScript（终）</a>
+    <h1 class="article-title" itemprop="name">
+      关于TypeScript（终）
     </h1>
   
 
@@ -170,10 +174,275 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近真的是太忙了，工作盘核桃钓鱼不亦乐乎~~~
-        
+        <p>最近真的是太忙了，工作盘核桃钓鱼不亦乐乎~~~<span id="more"></span></p>
+<h2 id="声明文件"><a href="#声明文件" class="headerlink" title="声明文件"></a>声明文件</h2><p>当使用第三方库时，我们需要引用它的声明文件，才能获得对应的代码补全、接口提示等功能</p>
+<h3 id="新语法索引"><a href="#新语法索引" class="headerlink" title="新语法索引"></a>新语法索引</h3><ul>
+<li><code>declare var</code>声明全局变量</li>
+<li><code>declare function</code>声明全局方法</li>
+<li><code>decalre class</code> 声明全局类</li>
+<li><code>declare enum</code>声明全局枚举类型</li>
+<li><code>decalre namespace</code>声明（包含子属性）的全局对象</li>
+<li><code>interface </code>和<code>type</code>声明全局类型</li>
+<li><code>export</code>导出变量</li>
+<li><code>export namespace</code>导出（含有子属性）对象</li>
+<li><code>export default</code>ES6默认导出</li>
+<li><code>export =</code>commonjs导出模块</li>
+<li><code>export as namespace</code>UMD库声明全局变量</li>
+<li><code>declare global</code>扩展全局变量</li>
+<li><code>declare module</code>扩展模块</li>
+<li><code>/// &lt;reference /&gt;</code>三斜线指令</li>
+</ul>
+<h3 id="什么是声明语句"><a href="#什么是声明语句" class="headerlink" title="什么是声明语句"></a>什么是声明语句</h3><p>一般引入第三方库后例如jQuery,在标签引入后就可用<code>$</code>或者<code>jQuery</code>查找元素，但是在Ts中，编译器并不知道这是什么，所以就会导致编译报错，这时就需要用<code>declare var</code>来定义它的类型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span> <span class="keyword">var</span> jQuery:<span class="function">(<span class="params">selector: <span class="built_in">string</span></span>) =&gt;</span> <span class="built_in">any</span>;</span><br><span class="line">jQuery(<span class="string">&#x27;XXX&#x27;</span>);</span><br><span class="line"><span class="comment">// declare var 并未真正的定义一个变量，只是定义了一个全局变量jQuery的类型，仅仅用于编译时的检查，在编译结果时会被删除</span></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line">jQuery(<span class="string">&#x27;XXX&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="什么是声明文件"><a href="#什么是声明文件" class="headerlink" title="什么是声明文件"></a>什么是声明文件</h3><p>通常我们会把声明语句单独放入一个文件，这个文件就是声明文件</p>
+<p>声明文件必须以<code>.d.ts</code>结尾，ts会解析项目中所有的<code>xx.ts</code>文件，当然也包括<code>.d.ts</code>结尾的文件。所以当我们把<code>xxx.d.ts</code>放到项目中时，其他所有的<code>.ts</code>文件就可以获得其类型</p>
+<h3 id="第三方声明文件"><a href="#第三方声明文件" class="headerlink" title="第三方声明文件"></a>第三方声明文件</h3><p>社区有定义好的第三方文件，可以直接下载使用，推荐用<code>@types</code>统一管理第三方库的声明文件</p>
+<p>直接 npm 安装对应的生命模块即可</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install <span class="meta">@types</span>/xxx --save-dev</span><br></pre></td></tr></table></figure>
+
+<h3 id="书写声明文件"><a href="#书写声明文件" class="headerlink" title="书写声明文件"></a>书写声明文件</h3><p>当第三方库没有提供声明文件时，需要我们自己去书写声明文件，下文会详细介绍如何书写声明文件，在不同的场景声明文件的书写也会有所区别</p>
+<p>库的应用场景主要有以下几种</p>
+<ul>
+<li>全局变量：通过<code>&lt;scriopt&gt;</code>标签引入第三方库，注入全局变量</li>
+<li>npm包：通过<code>import foo from &#39;foo&#39;</code>导入，符合ES67模块规范</li>
+<li>UMD库：既可以通过<code>&lt;script&gt;</code>标签引入，又可以通过<code>import</code>导入</li>
+<li>直接扩展全局变量：通过<code>&lt;script&gt;</code>标签引入后，改变一个全局变量的结构</li>
+<li>在npm包或UMD库中扩展全局变量：引用 npm 包或 UMD 库后，改变一个全局变量的结构</li>
+<li>模块插件：通过<code>&lt;script&gt;</code>或<code>impoirt</code>导入后，改变另一个模块的结构</li>
+</ul>
+<h4 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h4><p>全局变量的声明文件主要有一下集中语法</p>
+<ul>
+<li><p>declare var/let/const 声明全局变量</p>
+<ul>
+<li>const声明为常量不可修改，一般都用const</li>
+<li>只能声明类型，不能在声明类型中具体实现</li>
+</ul>
+</li>
+<li><p>declare function 声明全局方法</p>
+<ul>
+<li>函数类型声明中支持函数重载</li>
+</ul>
+</li>
+<li><p>declare class 声明全局类</p>
+<ul>
+<li>只能用来定义类型，不能用来定义具体的实现，定义方法报错</li>
+</ul>
+</li>
+<li><p>declare enum 声明全局枚举类型</p>
+<ul>
+<li>使用此方式定义的枚举类型也被称为外部枚举</li>
+<li>只能用来定义类型，而不是具体的值</li>
+</ul>
+</li>
+<li><p>declare namespace 声明（含有子属性）的全局对象</p>
+<ul>
+<li>ts 模块化方案，称为命名空间，在声明文件中常用，用来表示全局变量是一个对象，包含很多子属性，例如jQuery是一个全局变量，它是一个对象，提供了一个<code>jQuery.ajax</code>方法可以调用，那么我们用此来声明拥有多个子属性的全局变量</li>
+<li>在此内部直接使用声明，不用使用 declare 关键字</li>
+<li>namespace 也可嵌套使用用来声明深层的属性的类型</li>
+</ul>
+</li>
+<li><p>interface 和 type 声明全局类型</p>
+<ul>
+<li><p>除了全局变量外，当我们暴露其它类型时，可以直接用<code>interface</code>和<code>type</code>来声明一个全局的接口或类型</p>
+<p>demo</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/jQuery.d.ts</span></span><br><span class="line"><span class="keyword">interface</span> AjaxSettings &#123;</span><br><span class="line">    method?: <span class="string">&#x27;GET&#x27;</span> | <span class="string">&#x27;POST&#x27;</span></span><br><span class="line">    data?: <span class="built_in">any</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">namespace</span> jQuery &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">ajax</span>(<span class="params">url: <span class="built_in">string</span>?: AjaxSettings</span>): <span class="title">void</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// scr/index.ts</span></span><br><span class="line"><span class="keyword">let</span> setting: AjaxSettings = &#123;</span><br><span class="line">    method: <span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">    data: &#123;</span><br><span class="line">        name: <span class="string">&#x27;foo&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">jQuery.ajax(<span class="string">&#x27;/xx/xxx&#x27;</span>,setting);</span><br></pre></td></tr></table></figure></li>
+<li><p>防止命名冲突，暴露在最外层的<code>interface</code>和<code>type</code>会作为全局类型作用于整个项目中，我们尽可能减少全局类型的数量，所以将他们放在<code>namespace</code>下面</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/jQuery.d.ts</span></span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">namespace</span> jQuery &#123;</span><br><span class="line">    <span class="keyword">interface</span> AjaxSettings &#123;</span><br><span class="line">        method?: <span class="string">&#x27;GET&#x27;</span> | <span class="string">&#x27;POST&#x27;</span></span><br><span class="line">    	data?: <span class="built_in">any</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">ajax</span>(<span class="params">url: <span class="built_in">string</span>, settings?: AjaxSettings</span>): <span class="title">void</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用这个interface的时候，也应该加上jQuery前缀</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// src/index.ts</span></span><br><span class="line"><span class="keyword">let</span> setting: jQuery.AjaxSetting = &#123;</span><br><span class="line">    method: <span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">    data: &#123;</span><br><span class="line">        name: <span class="string">&#x27;foo&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">jQuery.ajax(<span class="string">&#x27;xx/xxx&#x27;</span>,settings);<span class="string">`	`</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="npm包"><a href="#npm包" class="headerlink" title="npm包"></a>npm包</h4><p>一般我们通过<code>import foo from &#39;foo&#39;</code>导入一个npm包，这是符合 ES6 规范的</p>
+<p>在尝试给一个 npm 包创建声明之前，我们要先看他的声明是否存在，一般存在以下两个地方</p>
+<ul>
+<li>与该 npm 包绑定在一起，依据为<code>package.json</code>中有<code>type</code>字段，或者有一个<code>index.d.ts</code>声明文件，这种模式不需要额外安装其他包，所以我们自己创建 npm 包的时候，最好将声明文件与 npm 包绑在一起</li>
+<li>发布到<code>@types</code>里，只需要尝试安装对应的<code>@type</code>包就知道是否存在改声明文件，这种模式一般是用于 npm 包的维护者没有提供声明文件，所以只能由其他人将声明文件发布到<code>@type</code>里</li>
+</ul>
+<p>若以上两种方式都没有找到对应的声明文件，那么我们需要自己为它写声明文件了，由于是通过<code>import</code>语句导入的模块，所以声明文件存放的位置也有所约束，一般有两种方案</p>
+<ul>
+<li><p>创建一个<code>node_modules/@types/foo/index.d.ts</code>文件，存放<code>foo</code>模块的声明文件，这种方式不需要额外的配置，但是<code>node_modules</code>目录不稳定，代码也没有被保存到仓库中，无法回溯版本，一般只作临时测试</p>
+</li>
+<li><p>创建一个<code>type</code>目录，专门用来管理自己书写的声明文件，将<code>foo</code>文件放到<code>type/foo/index.d.ts</code>中。这种方式要配置下<code>tsconfig.json</code>中的<code>paths</code>和<code>baseUrl</code>字段</p>
+<p>目录结构如下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/path/to/project</span><br><span class="line">├── src</span><br><span class="line">|  └── index.ts</span><br><span class="line">├── types</span><br><span class="line">|  └── foo</span><br><span class="line">|     └── index.d.ts</span><br><span class="line">└── tsconfig.json</span><br></pre></td></tr></table></figure>
+
+<p><code>tsconfig.json</code> 内容：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;compilerOptions&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;module&quot;</span>: <span class="string">&quot;commonjs&quot;</span>,</span><br><span class="line">        <span class="string">&quot;baseUrl&quot;</span>: <span class="string">&quot;./&quot;</span>,</span><br><span class="line">        <span class="string">&quot;paths&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;*&quot;</span>: [<span class="string">&quot;types/*&quot;</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>如此配置后，通过<code>import</code>导入<code>foo</code>的时候，也会去<code>types</code>目录下寻找对应的模块的声明文件了</p>
+<p>注意<code>module</code>配置可以有很多种选项，不同的配置会影响模块的导入导出模式，这里我们使用了<code>commonjs</code>这个最常用的选项，此后也会用这种方式</p>
+<h5 id="npm包声明文件主要有以下几种语法"><a href="#npm包声明文件主要有以下几种语法" class="headerlink" title="npm包声明文件主要有以下几种语法"></a>npm包声明文件主要有以下几种语法</h5><ul>
+<li><p><code>export</code>导出变量</p>
+<ul>
+<li><p>使用 declare 声明的不再是全局变量，而是在当前文件的局部变量，只有在声明文件中使用</p>
+<p><code>export</code>导出，然后在使用方<code>import</code>导入后，才能应用到这些类型说明，<code>export</code>语法与普通的 ts 中的语法类似，区别仅在于在声明文件中禁止定义具体的实现</p>
+</li>
+<li><p>也可使用<code>declare</code>声明多个变量，然后再用<code>export</code>一次性导出</p>
+</li>
+</ul>
+</li>
+<li><p><code>export namespace</code>导出含有子属性的对象</p>
+<ul>
+<li>用来导出一个拥有子属性的对象</li>
+</ul>
+</li>
+<li><p><code>export default</code>ES6默认导出</p>
+<ul>
+<li><p>在ES6中，使用<code>export default</code>可以导出一个默认值，使用方可以用<code>import foo frem &#39;foo&#39;</code> 而不是<code>import &#123;foo&#125; from &#39;foo&#39;来导入这个默认值</code>，在类型声明文件中，<code>export default</code>用来导出默认值的类型，只有<code>function</code>、<code>class</code>、<code>interface</code>可以直接默认导出，其他的变量需要先定义出来再默认导入</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// types/foo/index.d.ts</span></span><br><span class="line"><span class="comment">// 错误的写法</span></span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">default</span> <span class="built_in">enum</span> Directions &#123;</span><br><span class="line">        <span class="comment">// ERROR: Expression expected.</span></span><br><span class="line">        Up,</span><br><span class="line">        Down,</span><br><span class="line">        Left,</span><br><span class="line">        Right</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// 正确的写法</span></span><br><span class="line"><span class="comment">// 针对此种默认导出，一般将导出的语句放在最前面</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Directions;</span><br><span class="line"><span class="keyword">declare</span> <span class="built_in">enum</span> Directions &#123;</span><br><span class="line">    UP,</span><br><span class="line">    Down,</span><br><span class="line">    Left,</span><br><span class="line">    Right</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><code>export =</code>commonjs导出模块</p>
+<ul>
+<li><p>在commonjs规范中，我们用以下方式来导出一个模块</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 整体导出</span></span><br><span class="line"><span class="built_in">module</span>.exports = foo;</span><br><span class="line"><span class="comment">// 单个导出</span></span><br><span class="line"><span class="built_in">exports</span>.bar = bar;</span><br></pre></td></tr></table></figure>
+
+<p>在 ts 中，针对这种模块导出有多重方放可以导入</p>
+<ul>
+<li><p>第一种<code>const ... = require;</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 整体导入</span></span><br><span class="line"><span class="keyword">const</span> foo = <span class="built_in">require</span>(<span class="string">&#x27;foo&#x27;</span>);</span><br><span class="line"><span class="comment">// 单个导入</span></span><br><span class="line"><span class="keyword">const</span> bar = <span class="built_in">require</span>(<span class="string">&#x27;foo&#x27;</span>).bar;</span><br></pre></td></tr></table></figure></li>
+<li><p>第二种<code>import ... from</code>，整体导出需要使用<code>import * as</code>来导入</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 整体导入</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> foo <span class="keyword">from</span> <span class="string">&#x27;foo&#x27;</span>;</span><br><span class="line"><span class="comment">// 单个导入</span></span><br><span class="line"><span class="keyword">import</span> &#123;bar&#125; <span class="keyword">from</span> <span class="string">&#x27;foo&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>第三种<code>import ... require</code>,这也是 ts 官方推荐的方式</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 整体导入</span></span><br><span class="line"><span class="keyword">import</span> foo = <span class="built_in">require</span>(<span class="string">&#x27;foo&#x27;</span>);</span><br><span class="line"><span class="comment">// 单个导入</span></span><br><span class="line"><span class="keyword">import</span> bar = foo.bar;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>对于这种使用 commonjs 规范你的库，加入要为它写类型声明文件的话，就需要使用<code>export =</code>这种语法了</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// types/foo/index.d.ts</span></span><br><span class="line"><span class="keyword">export</span> = foo;</span><br><span class="line"><span class="keyword">declare</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>): <span class="title">string</span></span>;</span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">namespace</span> foo &#123;</span><br><span class="line">    <span class="keyword">const</span> bar: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：使用<code>export =</code>之后，就不能再单个导出<code>export &#123;bar&#125;</code>，所以我们通过声明合并，使用 <code>declare namespace foo</code>来将<code>bar</code>合并到<code>foo</code>里面。</p>
+<p>准备地讲，<code>export =</code>不仅可以用在声明文件中，也可以用在普通的声明文件中。实际上<code>import ... require</code>和<code>export =</code>都是为了兼容AMD规范而创立的新语法，但是不常用也不推荐使用。</p>
+<p>由于很多第三方库是 commonjs 规范的，所以声明文件也就要用到<code>export =</code>这种语法，但是还需要再强调一下，相比于<code>export =</code>，我们推荐使用 ES6 标准的<code>export default</code>和<code>export</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="UMD库"><a href="#UMD库" class="headerlink" title="UMD库"></a>UMD库</h4><p>既可以通过<code>&lt;script&gt;</code>标签引入，又可以通过<code>import</code>导入的库，称为 UMD 库。相比于 npm 包的类型声明文件，我们需要额外声明一个全局变量，为了实现这种方式，ts 提供了一个新的语法<code>export as namespace</code></p>
+<p><code>export as namespace</code></p>
+<p>一般使用时，都是先有了 npm 包的声明文件，再基于它添加一条<code>export as namespace</code>语句，即可讲声明好的一个变量声明为全局变量</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// types/foo/index.d.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">as</span> namespce foo;</span><br><span class="line"><span class="keyword">export</span> = foo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">declare</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>): <span class="title">string</span></span>;</span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">namespace</span> foo &#123;</span><br><span class="line">    <span class="keyword">const</span> bar: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以与 <code>export default</code>一起使用</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// types/foo/index.d.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">as</span> <span class="keyword">namespace</span> foo;</span><br><span class="line">export default foo;</span><br><span class="line"></span><br><span class="line">declare function foo(): string;</span><br><span class="line">declare <span class="keyword">namespace</span> foo &#123;</span><br><span class="line">    <span class="keyword">const</span> bar: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="直接拓展全局变量"><a href="#直接拓展全局变量" class="headerlink" title="直接拓展全局变量"></a>直接拓展全局变量</h4><p>有的第三方库扩展了一个全局变量，可是此全局变量的类型却没有相应的更新过来，就会导致 ts 编译报错，此时就需要扩展全局变量的类型，比如扩展<code>string</code>的类型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> String &#123;</span><br><span class="line">    demo(): <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="string">&#x27;foo&#x27;</span>.demo();</span><br></pre></td></tr></table></figure>
+
+<p>通过声明合并，使用<code>interface string</code>即可给<code>String</code>添加属性或者方法</p>
+<p>也可以使用<code>declare namespace</code>给已有的命名空间添加类型声明</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// types/jquery-pluging/index.d.ts</span></span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">namespace</span> JQuery &#123;</span><br><span class="line">    <span class="keyword">interface</span> CustomOptions &#123;</span><br><span class="line">        bar: <span class="built_in">string</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> JQueryStatic &#123;</span><br><span class="line">    foo(options: JQuery.CustomOptions): <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/index.ts</span></span><br><span class="line">jQuery.foo（&#123;</span><br><span class="line">    bar:<span class="string">&#x27;&#x27;</span></span><br><span class="line">&#125;）</span><br></pre></td></tr></table></figure>
+
+<h4 id="在-npm-包或-UMD-库中扩展全局变量"><a href="#在-npm-包或-UMD-库中扩展全局变量" class="headerlink" title="在 npm 包或 UMD 库中扩展全局变量"></a>在 npm 包或 UMD 库中扩展全局变量</h4><p>对于一个 npm 包或者 UMD 库的声明文件，只有<code>export</code>导出的类型声明才能被导入，所以对于npm包或 UMD 库，如果导入此库之后会扩展全局变量，则需要使用另一种语法在声明文件中扩展全局变量的类型，那就是<code>declare global</code></p>
+<p><code>declare global</code></p>
+<p>使用<code>decalre global</code>可以在 npm 包或者 UMD 库的声明文件中扩展全局变量的类型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// tyupes/foo/index.d.ts</span></span><br><span class="line"><span class="keyword">declare</span> <span class="built_in">global</span> &#123;</span><br><span class="line">    <span class="keyword">interface</span> String &#123;</span><br><span class="line">        prependHello(): <span class="built_in">string</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// src/index.ts</span></span><br><span class="line"><span class="string">&#x27;bar&#x27;</span>.prependHello();</span><br></pre></td></tr></table></figure>
+
+<p>此种声明文件不需要导出任何东西。仍然要导出一个空对象，用来告诉编译器这是一个模块的声明文件，而不是一个全局变量的声明文件</p>
+<h4 id="模块插件"><a href="#模块插件" class="headerlink" title="模块插件"></a>模块插件</h4><p>通过<code>import</code>导入一个模块插件，可以改变另一个缘由模块的结构，如果原有模块已经有了类型声明文件。而模块插件没有类型声明文件，就会导致类型不完整，缺少插件部分的类型。ts 提供了一个语法 <code>declare module</code>,它可以用来拓展原有的模块类型</p>
+<p><code>decalre module</code></p>
+<p>如果要拓展原有模块的话，需要在类型声明文件中先引用原有的模块，再使用<code>decalre module</code>拓展原有模块</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// types/moment-plugin/index.d.ts</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> moment <span class="keyword">from</span> <span class="string">&#x27;moment&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">declare</span> <span class="built_in">module</span> <span class="string">&#x27;moment&#x27;</span> &#123;</span><br><span class="line">    <span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>): <span class="title">moment</span>.<span class="title">CalendarKey</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/index/ts</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> moment <span class="keyword">from</span> <span class="string">&#x27;moment&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;moment-pluging&#x27;</span>;</span><br><span class="line"></span><br><span class="line">moment.foo()</span><br></pre></td></tr></table></figure>
+
+<p><code>decalre module</code>也可用于在一个文件中一次性声明多个模块的类型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// types/foo-bar.d.ts</span></span><br><span class="line"><span class="keyword">declare</span> <span class="built_in">module</span> <span class="string">&#x27;foo&#x27;</span> &#123;</span><br><span class="line">    <span class="keyword">export</span> <span class="keyword">interface</span> Foo &#123;</span><br><span class="line">        foo: <span class="built_in">string</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">declare</span> <span class="built_in">module</span> <span class="string">&#x27;bar&#x27;</span> &#123;</span><br><span class="line">	<span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>): <span class="title">string</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/index/ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; FOO &#125; <span class="keyword">from</span> <span class="string">&#x27;foo&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> bar <span class="keyword">from</span> <span class="string">&#x27;bar&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> f: FOO;</span><br><span class="line">bar.bar();</span><br></pre></td></tr></table></figure>
+
+<h4 id="声明文件中的依赖"><a href="#声明文件中的依赖" class="headerlink" title="声明文件中的依赖"></a>声明文件中的依赖</h4><ol>
+<li>一个文件中有时会依赖另一个声明文件中的类型，除了<code>import</code>导入外，也可用三斜线指令导入</li>
+</ol>
+<p>在全局变量的声明文件中是不允许出现<code>import</code>，<code>export</code>关键字的，一旦出现它就会被视为一个 npm 包或者 UMD 库，就不再是全局变量的声明文件了，所有当我们在书写一个全局变量的声明文件时，如果需要应用另一个库的类型，就必须用三斜线指令</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// types/jquery-plugin/index.d.ts</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// &lt;reference types=&quot;jquery&quot; /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">declare</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">options: JQuery.AjaxSettings</span>): <span class="title">string</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/index.ts</span></span><br><span class="line"></span><br><span class="line">foo(&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>三斜线指令必须要放在页面的最顶端</p>
+<ol start="2">
+<li>当我们需要依赖一个全局变量的声明文件时，由于全局变量不支持通过<code>import</code>导入，必须使用三斜线引入</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// types/node-plugin/index.d.ts</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// &lt;reference types=&quot;node&quot; /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">p: NodeJS.Process</span>): <span class="title">string</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/index.ts</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; foo &#125; <span class="keyword">from</span> <span class="string">&#x27;node-plugin&#x27;</span>;</span><br><span class="line"></span><br><span class="line">foo(<span class="built_in">global</span>.process);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>拆分声明文件</p>
+<p>当我们的全局变量的声明文件太大时，可以通过拆分为多个文件，然后在一个入口文件中将它们一一引入，来提高代码的可维护性。比如 <code>jQuery</code> 的声明文件就是这样的</p>
+</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// node_modules/@types/jquery/index.d.ts</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// &lt;reference types=&quot;sizzle&quot; /&gt;</span></span><br><span class="line"><span class="comment">/// &lt;reference path=&quot;JQueryStatic.d.ts&quot; /&gt;</span></span><br><span class="line"><span class="comment">/// &lt;reference path=&quot;JQuery.d.ts&quot; /&gt;</span></span><br><span class="line"><span class="comment">/// &lt;reference path=&quot;misc.d.ts&quot; /&gt;</span></span><br><span class="line"><span class="comment">/// &lt;reference path=&quot;legacy.d.ts&quot; /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> = jQuery;</span><br></pre></td></tr></table></figure>
+
+<h4 id="自动生成声明文件"><a href="#自动生成声明文件" class="headerlink" title="自动生成声明文件"></a>自动生成声明文件</h4><p>如果库的源码本身就是由 ts 写的，那么在使用 <code>tsc</code> 脚本将 ts 编译为 js 的时候，添加 <code>declaration</code> 选项，就可以同时也生成 <code>.d.ts</code> 声明文件了</p>
+<p>我们可以在命令行中添加 <code>--declaration</code>（简写 <code>-d</code>），或者在 <code>tsconfig.json</code> 中添加 <code>declaration</code> 选项。这里以 <code>tsconfig.json</code> 为例</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;compilerOptions&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;module&quot;</span>: <span class="string">&quot;commonjs&quot;</span>,</span><br><span class="line">        <span class="string">&quot;outDir&quot;</span>: <span class="string">&quot;lib&quot;</span>,</span><br><span class="line">        <span class="string">&quot;declaration&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上例中我们添加了 <code>outDir</code> 选项，将 ts 文件的编译结果输出到 <code>lib</code> 目录下，然后添加了 <code>declaration</code> 选项，设置为 <code>true</code>，表示将会由 ts 文件自动生成 <code>.d.ts</code> 声明文件，也会输出到 <code>lib</code> 目录下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 运行后目录</span></span><br><span class="line"><span class="comment">// /path/to/project</span></span><br><span class="line">├── lib</span><br><span class="line">|  ├── bar</span><br><span class="line">|  |  ├── index.d.ts</span><br><span class="line">|  |  └── index.js</span><br><span class="line">|  ├── index.d.ts</span><br><span class="line">|  └── index.js</span><br><span class="line">├── src</span><br><span class="line">|  ├── bar</span><br><span class="line">|  |  └── index.ts</span><br><span class="line">|  └── index.ts</span><br><span class="line">├── package.json</span><br><span class="line">└── tsconfig.json</span><br></pre></td></tr></table></figure>
+
+<p>除了 <code>declaration</code> 选项之外，还有几个选项也与自动生成声明文件有关，这里只简单列举出来，不做详细演示了</p>
+<ul>
+<li><code>declarationDir</code> 设置生成 <code>.d.ts</code> 文件的目录</li>
+<li><code>declarationMap</code> 对每个 <code>.d.ts</code> 文件，都生成对应的 <code>.d.ts.map</code>（sourcemap）文件</li>
+<li><code>emitDeclarationOnly</code> 仅生成 <code>.d.ts</code> 文件，不生成 <code>.js</code> 文件</li>
+</ul>
+<h3 id="发布声明文件"><a href="#发布声明文件" class="headerlink" title="发布声明文件"></a>发布声明文件</h3><p>当我们为一个库写好了声明文件之后，下一步就是将它发布出去了。</p>
+<p>此时有两种方案：</p>
+<ol>
+<li>将声明文件和源码放在一起</li>
+<li>将声明文件发布到 <code>@types</code> 下</li>
+</ol>
+<p>这两种方案中优先选择第一种方案。保持声明文件与源码在一起，使用时就不需要额外增加单独的声明文件库的依赖了，而且也能保证声明文件的版本与源码的版本保持一致。</p>
+<p>仅当我们在给别人的仓库添加类型声明文件，但原作者不愿意合并 pull request 时，才需要使用第二种方案，将声明文件发布到 <code>@types</code> 下</p>
+<h4 id="将声明文件和源码放在一起"><a href="#将声明文件和源码放在一起" class="headerlink" title="将声明文件和源码放在一起"></a>将声明文件和源码放在一起</h4><p>如果声明文件是通过 <code>tsc</code> 自动生成的，那么无需做任何其他配置，只需要把编译好的文件也发布到 npm 上，使用方就可以获取到类型提示了。</p>
+<p>如果是手动写的声明文件，那么需要满足以下条件之一，才能被正确的识别：</p>
+<ul>
+<li>给 <code>package.json</code> 中的 <code>types</code> 或 <code>typings</code> 字段指定一个类型声明文件地址</li>
+<li>在项目根目录下，编写一个 <code>index.d.ts</code> 文件</li>
+<li>针对入口文件（<code>package.json</code> 中的 <code>main</code> 字段指定的入口文件），编写一个同名不同后缀的 <code>.d.ts</code> 文件</li>
+</ul>
+<p>第一种方式是给 <code>package.json</code> 中的 <code>types</code> 或 <code>typings</code> 字段指定一个类型声明文件地址。比如：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;foo&quot;</span>,</span><br><span class="line">    <span class="string">&quot;version&quot;</span>: <span class="string">&quot;1.0.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;main&quot;</span>: <span class="string">&quot;lib/index.js&quot;</span>,</span><br><span class="line">    <span class="string">&quot;types&quot;</span>: <span class="string">&quot;foo.d.ts&quot;</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>指定了 <code>types</code> 为 <code>foo.d.ts</code> 之后，导入此库的时候，就会去找 <code>foo.d.ts</code> 作为此库的类型声明文件了。</p>
+<p><code>typings</code> 与 <code>types</code> 一样，只是另一种写法。</p>
+<p>如果没有指定 <code>types</code> 或 <code>typings</code>，那么就会在根目录下寻找 <code>index.d.ts</code> 文件，将它视为此库的类型声明文件。</p>
+<p>如果没有找到 <code>index.d.ts</code> 文件，那么就会寻找入口文件（<code>package.json</code> 中的 <code>main</code> 字段指定的入口文件）是否存在对应同名不同后缀的 <code>.d.ts</code> 文件。</p>
+<p>比如 <code>package.json</code> 是这样时</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;foo&quot;</span>,</span><br><span class="line">    <span class="string">&quot;version&quot;</span>: <span class="string">&quot;1.0.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;main&quot;</span>: <span class="string">&quot;lib/index.js&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>就会先识别 <code>package.json</code> 中是否存在 <code>types</code> 或 <code>typings</code> 字段。发现不存在，那么就会寻找是否存在 <code>index.d.ts</code> 文件。如果还是不存在，那么就会寻找是否存在 <code>lib/index.d.ts</code> 文件。假如说连 <code>lib/index.d.ts</code> 都不存在的话，就会被认为是一个没有提供类型声明文件的库了。</p>
+<p>有的库为了支持导入子模块，比如 <code>import bar from &#39;foo/lib/bar&#39;</code>，就需要额外再编写一个类型声明文件 <code>lib/bar.d.ts</code> 或者 <code>lib/bar/index.d.ts</code>，这与自动生成声明文件类似，一个库中同时包含了多个类型声明文件</p>
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你的赞~可惜我收不到-_-!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -197,16 +466,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/18/TypeScript%EF%BC%88%E5%85%AB%EF%BC%89/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/05/18/TypeScript%EF%BC%88%E5%85%AB%EF%BC%89/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/05/07/TypeScript%EF%BC%88%E4%B8%83%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">关于TypeScript（七）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -226,708 +554,15 @@
 
 
 
-
-  
-    <article id="post-TypeScript（七）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/07/TypeScript%EF%BC%88%E4%B8%83%EF%BC%89/">关于TypeScript（七）</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/07/TypeScript%EF%BC%88%E4%B8%83%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2021-05-07T08:25:09.586Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>生活很无趣，但是你能很有趣~~~
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">TypeScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/07/TypeScript%EF%BC%88%E4%B8%83%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-TypeScript（六）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/TypeScript%EF%BC%88%E5%85%AD%EF%BC%89/">关于TypeScript（六）</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/06/TypeScript%EF%BC%88%E5%85%AD%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2021-05-06T00:51:08.462Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>生活很无趣，但是你能很有趣~~~
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">TypeScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/06/TypeScript%EF%BC%88%E5%85%AD%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-TypeScript（五）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/TypeScript%EF%BC%88%E4%BA%94%EF%BC%89/">关于TypeScript（五）</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/06/TypeScript%EF%BC%88%E4%BA%94%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2021-05-06T00:46:36.455Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>生活很无趣，但是你能很有趣~~~
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">TypeScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/06/TypeScript%EF%BC%88%E4%BA%94%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-TypeScript（四）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/28/TypeScript%EF%BC%88%E5%9B%9B%EF%BC%89/">关于TypeScript（四）</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/28/TypeScript%EF%BC%88%E5%9B%9B%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2021-04-28T00:39:34.333Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>生活很无趣，但是你能很有趣~~~
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">TypeScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/28/TypeScript%EF%BC%88%E5%9B%9B%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-TypeScript（三）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/27/TypeScript%EF%BC%88%E4%B8%89%EF%BC%89/">关于TypeScript（三）</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/27/TypeScript%EF%BC%88%E4%B8%89%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2021-04-27T00:45:08.384Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>生活很无趣，但是你能很有趣~~~
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">TypeScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/27/TypeScript%EF%BC%88%E4%B8%89%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-TypeScript（二）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/26/TypeScript%EF%BC%88%E4%BA%8C%EF%BC%89/">关于TypeScript（二）</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/26/TypeScript%EF%BC%88%E4%BA%8C%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2021-04-26T01:24:20.117Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>生活很无趣，但是你能很有趣~~~
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">TypeScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/26/TypeScript%EF%BC%88%E4%BA%8C%EF%BC%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-2021-4-25" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/26/2021-4-25/">关于TypeScript（一）</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/26/2021-4-25/" class="archive-article-date">
-  	<time datetime="2021-04-26T01:23:23.863Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>生活很无趣，但是你能很有趣~~~
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">TypeScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/26/2021-4-25/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-2021-4-24" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/26/2021-4-24/">关于webpack</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/26/2021-4-24/" class="archive-article-date">
-  	<time datetime="2021-04-26T01:23:23.862Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>生活很无趣，但是你能很有趣~~~
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/26/2021-4-24/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-2021-4-23" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/26/2021-4-23/">前端发展简史（二）</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/26/2021-4-23/" class="archive-article-date">
-  	<time datetime="2021-04-26T01:23:23.860Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>生活很无趣，但是你能很有趣~~~
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">前端那些事</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/26/2021-4-23/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"></a>
-    </nav>
   
 
+  
+
+  
+
+  
 
 
           </div>
@@ -949,8 +584,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
